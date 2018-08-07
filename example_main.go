@@ -1,9 +1,8 @@
 package main
 
 import (
-	"github.com/henrylee2cn/pholcus/exec"
-	_ "github.com/henrylee2cn/pholcus_lib" // 此为公开维护的spider规则库
-	// _ "github.com/henrylee2cn/pholcus_lib_pte" // 同样你也可以自由添加自己的规则库
+	"github.com/liming8519/pholcus/exec"
+	// _ "github.com/liming8519/pholcus_lib_pte" // 同样你也可以自由添加自己的规则库
 )
 
 func main() {

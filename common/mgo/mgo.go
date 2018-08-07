@@ -3,11 +3,14 @@ package mgo
 import (
 	"time"
 
-	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2"
 
-	"github.com/henrylee2cn/pholcus/common/pool"
-	"github.com/henrylee2cn/pholcus/config"
-	"github.com/henrylee2cn/pholcus/logs"
+	"github.com/liming8519/pholcus/common/pool"
+	"github.com/liming8519/pholcus/config"
+	"github.com/liming8519/pholcus/logs"
+	"github.com/spf13/viper"
+	"net"
+	"crypto/tls"
 )
 
 type MgoSrc struct {
@@ -34,7 +37,19 @@ var (
 )
 
 func Refresh() {
-	session, err = mgo.Dial(config.MGO_CONN_STR)
+	dialInfo:= &mgo.DialInfo{
+			Addrs:    []string{viper.GetString("mongodb.address")},
+			Timeout:  3 * time.Second,
+			Database: viper.GetString("mongodb.database"),
+			Username: viper.GetString("mongodb.username"),
+			Password: viper.GetString("mongodb.password"),
+			DialServer: func(addr *mgo.ServerAddr) (net.Conn, error) {
+				return tls.Dial("tcp", addr.String(), &tls.Config{})
+			},
+		}
+	logs.Log.Error("MongoDB info：%v\n", dialInfo)
+	var err error
+	session, err = mgo.DialWithInfo(dialInfo)
 	if err != nil {
 		logs.Log.Error("MongoDB：%v\n", err)
 	} else if err = session.Ping(); err != nil {

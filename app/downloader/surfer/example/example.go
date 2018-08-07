@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/henrylee2cn/pholcus/app/downloader/surfer"
+	"github.com/liming8519/pholcus/app/downloader/surfer"
 	"io/ioutil"
 	"log"
 	"time"

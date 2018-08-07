@@ -1,4 +1,6 @@
 *.o
+.idea/*
+.idea/*.xml
 *.a
 *.so
 _obj
